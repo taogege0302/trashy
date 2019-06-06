@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hero - Admin</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        .hero-list img {
+            width: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="page-header container">
+            <h1>海贼王 <small>角色管理器</small></h1>
+        </div>
+    </header>
+    <div class="container hero-list">
+        <a class="btn btn-success pull-right" href="/add">添加英雄</a>
+        <table class="table table-hover">
+            <thead>
+                <th>编号</th>
+                <th>名称</th>
+                <th>能力</th>
+                <th>团体</th>
+                <th>操作</th>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
+        </table>
+    </div>
+</body>
+
+<script>
+    // ajax代码
+    // alert(2);
+
+    // 发送ajax请求，来获取服务器的数据  （服务器需要针对本次ajax请求做路由判断及数据获取响应）
+
+    // 获取ajax对象
+    var xhr = new XMLHttpRequest();
+
+    // 绑定ajax状态码变化事件
+    xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                // console.log(xhr.responseText);
+                var data = JSON.parse(xhr.responseText);
+                var str = '';
+                for(let i=0;i<data.length;i++){
+                    str += '<tr>';
+                    str += '<td>'+ data[i].id+'</td>';
+                    str += '<td>'+ data[i].name+'</td>';
+                    str += '<td>'+ data[i].nengli+'</td>';
+                    str += '<td>'+ data[i].jituan+'</td>';
+                    str += '<td><a href="#">删除</a> | <a href="#">修改</a></td>';
+                    str += '</tr>'
+                }
+                document.getElementById('tbody').innerHTML=str;           
+            }
+        }
+
+    xhr.open('get', 'http://127.0.0.1:8083/getdata');
+    xhr.send();
+
+</script>
+
+</html>
